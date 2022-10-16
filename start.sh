@@ -29,6 +29,6 @@ adduser -D -h ${PHOME} -G ${PUSR} -u ${PUID} ${PUSR}
 adduser ${PUSR} audio
 chown ${PUSR}:${PUSR} ${PHOME}
 
-exec su - mpd -c "${PROG} \"--no-daemon\" \"/mpd.conf\""
+#exec su - mpd -c "${PROG} \"--no-daemon\" \"/mpd.conf\""
 # Debug
-#exec su - mpd -c "${PROG} \"--stdout\" \"--no-daemon\" \"/mpd.conf\""
+exec su - mpd -c "${PROG} \"--stdout\" \"--no-daemon\" \"/mpd.conf\""

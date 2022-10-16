@@ -1,15 +1,15 @@
-# docker_mpd_lite
-FROM alpine:edge as build_base
+# docker_mpd
+FROM alpine:latest as build_base
 
-LABEL version="0.23.6"
+LABEL version="0.23.10"
 LABEL maintainers="[John Sing Dao Siu](https://github.com/J-Siu)"
-LABEL name="mpd_lite"
+LABEL name="mpd"
 LABEL usage="https://github.com/J-Siu/docker_mpd_lite/blob/master/README.md"
 LABEL description="Docker - MPD Lite with UID/GID + audio GID handling."
 
-RUN wget https://www.musicpd.org/download/mpd/0.23/mpd-0.23.6.tar.xz \
-	&& tar xf mpd-0.23.6.tar.xz
-WORKDIR /mpd-0.23.6
+RUN wget https://www.musicpd.org/download/mpd/0.23/mpd-0.23.10.tar.xz \
+	&& tar xf mpd-0.23.10.tar.xz
+WORKDIR /mpd-0.23.10
 
 RUN apk --no-cache add \
 		alsa-lib-dev \
@@ -20,6 +20,12 @@ RUN apk --no-cache add \
 		meson \
 		ninja \
 		sqlite-dev \
+		libnfs-dev \
+		mpg123-dev \
+		libid3tag-dev \
+		flac-dev \ 
+		libvorbis-dev \
+		curl-dev \
 	&& meson . output/release \
 		--prefix=/usr \
 		--sysconfdir=/etc \
@@ -37,7 +43,7 @@ RUN apk --no-cache add \
 		-Dtcp=true \
 		-Dalsa=enabled \
 		-Dffmpeg=enabled \
-		-Dipv6=enabled \
+		-Dipv6=disabled \
 		-Dsqlite=enabled \
 		-Ddaemon=false \
 		-Dsyslog=disabled \
@@ -56,16 +62,16 @@ RUN apk --no-cache add \
 		-Dbzip2=disabled \
 		-Dcdio_paranoia=disabled \
 		-Dchromaprint=disabled \
-		-Dcurl=disabled \
+		-Dcurl=enabled \
 		-Ddbus=disabled \
 		-Dexpat=disabled \
 		-Dfaad=disabled \
-		-Dflac=disabled \
+		-Dflac=enabled \
 		-Dfluidsynth=disabled \
 		-Dgme=disabled \
 		-Diconv=disabled \
 		-Dicu=disabled \
-		-Did3tag=disabled \
+		-Did3tag=enabled\
 		-Diso9660=disabled \
 		-Djack=disabled \
 		-Dlame=disabled \
@@ -76,8 +82,8 @@ RUN apk --no-cache add \
 		-Dmms=disabled \
 		-Dmodplug=disabled \
 		-Dmpcdec=disabled \
-		-Dmpg123=disabled \
-		-Dnfs=disabled \
+		-Dmpg123=enabled \
+		-Dnfs=enabled \
 		-Dopenal=disabled \
 		-Dopus=disabled \
 		-Doss=disabled \
@@ -98,7 +104,7 @@ RUN apk --no-cache add \
 		-Dtwolame=disabled \
 		-Dudisks=disabled \
 		-Dupnp=disabled \
-		-Dvorbis=disabled \
+		-Dvorbis=enabled \
 		-Dvorbisenc=disabled \
 		-Dwavpack=disabled \
 		-Dwebdav=disabled \
@@ -110,16 +116,16 @@ RUN apk --no-cache add \
 	&& meson configure output/release \
 	&& ninja -j 4 -C output/release
 
-FROM alpine:edge
+FROM alpine:latest
 
-LABEL version="0.23.6"
+LABEL version="0.23.10"
 LABEL maintainers="[John Sing Dao Siu](https://github.com/J-Siu)"
-LABEL name="mpd_lite"
+LABEL name="mpd"
 LABEL usage="https://github.com/J-Siu/docker_mpd_lite/blob/master/README.md"
 LABEL description="Docker - MPD Lite with UID/GID + audio GID handling."
 
-COPY --from=build_base /mpd-0.23.6/output/release/mpd /usr/bin/
-RUN apk --no-cache add alsa-lib sqlite-libs ffmpeg-libs
+COPY --from=build_base /mpd-0.23.10/output/release/mpd /usr/bin/
+RUN apk --no-cache add alsa-lib sqlite-libs ffmpeg-libs libnfs mpg123-libs libid3tag flac libvorbis curl 
 
 COPY docker-compose.yml env start.sh mpd.conf /
 RUN chmod u+x /start.sh \

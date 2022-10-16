@@ -54,15 +54,22 @@ Library|Usage
 `alsa-lib`|Linux ALSA sound system. This is for sound output.
 `ffmpeg-libs`|This take care of 99% of audio file playback.
 `sqlite-libs`|For mpd song database.
+`curl`|For http streaming
+`flac`|For flac playback
+`id3tag`|For id3 tagging
+`mpg123`|For mpg123 playback
+`nfs`|For nfs sources
+`vorbis`|For vorbis playback
+
 
 > ffmpeg-libs does pull in other decoders.
 
 ### Build
 
 ```sh
-git clone https://github.com/J-Siu/docker_mpd_lite.git
-cd docker_mpd_lite
-docker build -t jsiu/mpd .
+git clone https://github.com/emeteo/docker_mpd.git
+cd docker_mpd
+docker build -t emeteo/mpd .
 ```
 
 ### Usage
