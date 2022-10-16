@@ -109,7 +109,7 @@ docker run \
 -v ${MPD_PATH_MUSIC}:/mpd/music \
 --device ${MPD_SND} \
 --cap-add sys_nice \
-jsiu/docker_mpd
+emeteo/docker_mpd
 ```
 
 Example:
@@ -122,11 +122,11 @@ docker run \
 -e PUID=1001 \
 -e PGID=1002 \
 -p 6600:6600/tcp \
--v /home/jsiu/MPD:/mpd/.mpd \
--v /home/jsiu/Music:/mpd/music \
+-v /home/emeteo/MPD:/mpd/.mpd \
+-v /home/emeteo/Music:/mpd/music \
 --device /dev/snd \
 --cap-add sys_nice \
-jsiu/docker_mpd
+emeteo/docker_mpd
 ```
 
 If using `/etc/asound.conf`:
@@ -137,12 +137,12 @@ docker run \
 -e PUID=1001 \
 -e PGID=1002 \
 -p 6600:6600/tcp \
--v /home/jsiu/MPD:/mpd/.mpd \
--v /home/jsiu/Music:/mpd/music \
+-v /home/emeteo/MPD:/mpd/.mpd \
+-v /home/emeteo/Music:/mpd/music \
 -v /etc/asound.conf:/etc/asound.conf \
 --device /dev/snd \
 --cap-add sys_nice \
-jsiu/docker_mpd
+emeteo/docker_mpd
 ```
 
 #### Debug / Custom Config
@@ -150,7 +150,7 @@ jsiu/docker_mpd
 Get config from image:
 
 ```sh
-docker run --rm jsiu/docker_mpd cat /mpd.conf > mpd.conf
+docker run --rm emeteo/docker_mpd cat /mpd.conf > mpd.conf
 ```
 
 Change mpd.conf log_level to verbose:
@@ -166,11 +166,11 @@ docker run \
 -e PUID=1001 \
 -e PGID=1002 \
 -p 6600:6600/tcp \
--v /home/jsiu/mpd.conf:/mpd.conf \ # Map mpd.conf into container
--v /home/jsiu/MPD:/mpd/.mpd \
--v /home/jsiu/Music:/mpd/music \
+-v /home/emeteo/mpd.conf:/mpd.conf \ # Map mpd.conf into container
+-v /home/emeteo/MPD:/mpd/.mpd \
+-v /home/emeteo/Music:/mpd/music \
 --device /dev/snd \
-jsiu/docker_mpd
+emeteo/docker_mpd
 ```
 
 #### Compose
@@ -178,8 +178,8 @@ jsiu/docker_mpd
 Get docker-compose template from image:
 
 ```sh
-docker run --rm jsiu/mpd cat /docker-compose.yml > docker-compose.yml
-docker run --rm jsiu/mpd cat /env > .env
+docker run --rm emeteo/mpd cat /docker-compose.yml > docker-compose.yml
+docker run --rm emeteo/mpd cat /env > .env
 ```
 
 Fill in `.env` according to your environment.
@@ -190,11 +190,12 @@ docker-compose up
 
 ### Repository
 
-- [docker_mpd_lite](https://github.com/J-Siu/docker_mpd_lite)
+- [docker_mpd_lite](https://github.com/emeteo/docker_mpd)
 
 ### Contributors
 
 - [John Sing Dao Siu](https://github.com/J-Siu)
+- [Mario Teijeiro](https://github.com/emeteo)
 
 ### Change Log
 
